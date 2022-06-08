@@ -106,7 +106,7 @@ function create ()
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(enemies, platforms);
     
-    this.physics.add.collider(player, enemies, hitEnemy, null, this);
+    this.physics.add.collider(player, enemies, fire, fireText, hitEnemy, null, this);
     
     var enemyA = enemies.create(20, 20, 'enemy');
     var enemyB = enemies.create(100, 100, 'enemy');
@@ -164,7 +164,7 @@ function update ()
     }
 }
     
-function hitEnemy (player, enemy)
+function hitEnemy (player, enemy, fire, fireText)
 {
     enemy.disableBody(true, true);
     fire -= 10;
