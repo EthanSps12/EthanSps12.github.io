@@ -163,9 +163,17 @@ function update ()
     
 function hitEnemy (player, enemy)
 {
-    enemy.disableBody(true, true);
-    fire = fire - 10;
-    fireText.setText('Fire: ' + score);
+    this.physics.pause();
+
+    player.setTint(0xff0000);
+
+    player.anims.play('turn');
+
+    gameOver = true;
+    
+    //enemy.disableBody(true, true);
+    //fire = fire - 10;
+    //fireText.setText('Fire: ' + score);
     
 }
 
