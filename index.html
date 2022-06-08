@@ -116,7 +116,7 @@ function create ()
 
 function update ()
 {
-    if (fire == 0)
+    if (fire <= 0)
     {
     this.physics.pause();
 
@@ -163,18 +163,17 @@ function update ()
     
 function hitEnemy (player, enemy)
 {
+    enemy.disableBody(true, true);
+    fire = fire - 10;
+    fireText.setText('Fire: ' + score);
+    
     this.physics.pause();
 
     player.setTint(0xff0000);
 
     player.anims.play('turn');
 
-    gameOver = true;
-    
-    //enemy.disableBody(true, true);
-    //fire = fire - 10;
-    //fireText.setText('Fire: ' + score);
-    
+    gameOver = true;    
 }
 
 </script>
