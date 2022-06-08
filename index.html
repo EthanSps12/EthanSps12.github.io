@@ -100,13 +100,13 @@ function create ()
     enemies = this.physics.add.group();
 
     //  The fire energy
-    fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#FFF' });
+    fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#999' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(enemies, platforms);
     
-    this.physics.add.collider(player, enemies, fire, fireText, hitEnemy, null, this);
+    this.physics.add.collider(player, enemies, hitEnemy, null, this);
     
     var enemyA = enemies.create(20, 20, 'enemy');
     var enemyB = enemies.create(100, 100, 'enemy');
@@ -164,7 +164,7 @@ function update ()
     }
 }
     
-function hitEnemy (player, enemy, fire, fireText)
+function hitEnemy (player, enemy)
 {
     enemy.disableBody(true, true);
     fire -= 10;
