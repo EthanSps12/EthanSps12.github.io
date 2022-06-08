@@ -107,10 +107,6 @@ function create ()
     this.physics.add.collider(enemies, platforms);
     
     this.physics.add.collider(player, enemies, hitEnemy, null, this);
-    
-    var enemy = enemies.create(x, 16, 'enemy');
-    bomb.setCollideWorldBounds(true);
-    bomb.allowGravity = false;
 }
 
 function update ()
@@ -146,6 +142,11 @@ function update ()
     else if (cursors.up.isDown)
     {
         player.setVelocityY(-160);
+        
+        var enemy = enemies.create(x, 16, 'enemy');
+        enemy.setCollideWorldBounds(true);
+        enemy.allowGravity = false;
+
     }
     else if (cursors.down.isDown)
     {
