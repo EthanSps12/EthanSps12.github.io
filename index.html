@@ -108,9 +108,12 @@ function create ()
     
     this.physics.add.collider(player, enemies, hitEnemy, null, this);
     
-    var enemy = enemies.create(20, 20, 'enemy');
-    enemy.setCollideWorldBounds(true);
-    enemy.allowGravity = false;
+    var enemyA = enemies.create(20, 20, 'enemy');
+    var enemyB = enemies.create(100, 100, 'enemy');
+    enemyA.setCollideWorldBounds(true);
+    enemyA.allowGravity = false;
+    enemyB.setCollideWorldBounds(true);  // Later on, dont do this for every enemy
+    enemyB.allowGravity = false;
 
 }
 
