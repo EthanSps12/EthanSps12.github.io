@@ -50,9 +50,7 @@ function preload ()
 }
 
 function create ()
-{
-    game.physics.startSystem(Phaser.Physics.ARCADE);
-    
+{    
     this.add.image(400, 300, 'sky');
 
     platforms = this.physics.add.staticGroup();
@@ -151,10 +149,9 @@ function update ()
     }
     
     //ENEMY MOVEMENT
-        //  First is the callback
-        //  Second is the context in which the callback runs, in this case game.physics.arcade
-        //  Third is the parameter the callback expects - it is always sent the Group child as the first parameter
-    enemies.forEach(game.physics.arcade.moveToPointer, game.physics.arcade, false, 200);
+    enemies.children.iterate(function (child) {
+        accelerateToObject(child, player, 60, 60, 60) //accelerateToObject(gameObject, destination, [speed], [xSpeedMax], [ySpeedMax]). speedMax being equal to speed means it has a constant speed
+    });
 }
 
 function hitEnemy (player, enemy)
