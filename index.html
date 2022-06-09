@@ -102,6 +102,7 @@ function create ()
         repeat: 11,
         setXY: { x: 12, y: 100, stepX: 70 }
     });
+    enemies.enableBody = true;
 
     fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#FFF' });
 
@@ -109,10 +110,6 @@ function create ()
     this.physics.add.collider(enemies, platforms);
 
     this.physics.add.overlap(player, enemies, hitEnemy, null, this);
-    
-    enemies.children.iterate(function (child) {
-        child.enableBody(true, child.x, child.y, true, true);  //Needed? Problem?
-    });
 }
 
 function update ()
