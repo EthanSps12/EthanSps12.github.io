@@ -150,7 +150,7 @@ function update ()
     
     //ENEMY MOVEMENT
     enemies.children.iterate(function (child) {
-        child.moveEnemy(player, this);
+        moveEnemy(player, child);
     });
 }
     
