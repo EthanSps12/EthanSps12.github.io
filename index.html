@@ -125,9 +125,9 @@ function update ()
     
     if (fire <= 0)
     {
+        player.anims.play('turn');
         this.physics.pause();
         player.setTint(0xff0000);
-        player.anims.play('turn');
         gameOver = true;
     }
 
@@ -143,16 +143,20 @@ function update ()
 
         player.anims.play('right', true);
     }
+    else if (cursors.up.isDown)
+    {
+        player.setVelocityY(-160);
+    }
+    else if (cursors.down.isDown)
+    {
+        player.setVelocityY(160);
+    }
     else
     {
         player.setVelocityX(0);
+        player.setVelocityY(0);
 
         player.anims.play('turn');
-    }
-
-    if (cursors.up.isDown && player.body.touching.down)
-    {
-        player.setVelocityY(-330);
     }
 }
 
