@@ -51,6 +51,8 @@ function preload ()
 
 function create ()
 {
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    
     //  A simple background for our game
     this.add.image(400, 300, 'sky');
 
@@ -107,6 +109,10 @@ function create ()
     this.physics.add.collider(enemies, platforms);
 
     this.physics.add.overlap(player, enemies, hitEnemy, null, this);
+    
+    enemies.children.iterate(function (child) {
+        child.enableBody(true, child.x, child.y, true, true);  //Needed? Problem?
+    });
 }
 
 function update ()
