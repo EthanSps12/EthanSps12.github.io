@@ -111,6 +111,8 @@ function create ()
 
 function update ()
 {
+    
+    // GAME OVER CONDITIONS
     if (gameOver)
     {
         return;
@@ -124,6 +126,7 @@ function update ()
         gameOver = true;
     }
 
+    // PLAYER MOVEMENT
     if (cursors.left.isDown)
     {
         player.setVelocityX(-160);
@@ -151,6 +154,21 @@ function update ()
 
         player.anims.play('turn');
     }
+    
+    //ENEMY MOVEMENT
+    if (game.input.mousePointer.isDown)
+    {
+        //  First is the callback
+        //  Second is the context in which the callback runs, in this case game.physics.arcade
+        //  Third is the parameter the callback expects - it is always sent the Group child as the first parameter
+        enemies.forEach(game.physics.arcade.moveToPointer, game.physics.arcade, false, 200);
+    }
+    else
+    {
+        enemies.setAll('body.velocity.x', 0);
+        enemies.setAll('body.velocity.y', 0);
+    }
+
 }
 
 function hitEnemy (player, enemy)
