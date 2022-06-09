@@ -150,23 +150,9 @@ function update ()
     
     //ENEMY MOVEMENT
     enemies.children.iterate(function (child) {
-        moveEnemy(player, child);
+        this.physics.accelerateToObject(child, player, 60, 60, 60);  // Reference: https://phaser.io/examples/v3/view/physics/arcade/accelerate-to
     });
 }
-    
-function moveEnemy (player, enemy)
-{
-    accelerateToObject(enemy, player, 60, 60, 60);
-}
-
-function accelerateToObject(obj1, obj2, speed) {  // This code was take from: https://phaser.io/examples/v2/p2-physics/accelerate-to-object
-    if (typeof speed === 'undefined') { speed = 60; }
-    var angle = Math.atan2(obj2.y - obj1.y, obj2.x - obj1.x);
-    obj1.body.rotation = angle + 1.5708;  // degToRad(90) produced an error, so I replaced 90 degrees with 1.5708 radians
-    obj1.body.force.x = Math.cos(angle) * speed; 
-    obj1.body.force.y = Math.sin(angle) * speed;
-}
-
 
 function hitEnemy (player, enemy)
 {
