@@ -21,7 +21,6 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
             debug: false
         }
     },
@@ -70,8 +69,6 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
 
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
     //  Our player animations, turning, walking left and walking right.
@@ -102,10 +99,6 @@ function create ()
         key: 'enemy',
         repeat: 11,
         setXY: { x: 12, y: 0, stepX: 70 }
-    });
-
-    enemies.children.iterate(function (child) {
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
     });
 
     fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#FFF' });
@@ -167,14 +160,6 @@ function hitEnemy (player, enemy)
     fire -= 10;
     fireText.setText('Fire: ' + fire);
 
-    if (enemies.countActive(true) === 0)
-    {
-        enemies.children.iterate(function (child) {
-
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
-    }
 }</script>
 
 </body>
