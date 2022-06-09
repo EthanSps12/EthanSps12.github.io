@@ -150,9 +150,14 @@ function update ()
     
     //ENEMY MOVEMENT
     enemies.children.iterate(function (child) {
-        accelerateToObject(child, player, 60, 60, 60) //accelerateToObject(gameObject, destination, [speed], [xSpeedMax], [ySpeedMax]). speedMax being equal to speed means it has a constant speed
+        child.moveEnemy(player, this);
     });
 }
+    
+function moveEnemy (player, enemy)
+{
+    accelerateToObject(enemy, player, 60, 60, 60);
+}       
 
 function hitEnemy (player, enemy)
 {
