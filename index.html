@@ -146,9 +146,11 @@ function update () {
 }
     
 function moveEnemy (player, enemy, speed) {
-    var xDist = player.x - enemy.x;
-    var yDist = player.y - enemy.y;
-    var ratio = yDist / xDist;
+    //var xDist = player.x - enemy.x;
+    //var yDist = player.y - enemy.y;
+    var xDist = 0 - enemy.x;
+    var yDist = 600 - enemy.y;
+    var ratio = Math.abs(yDist / xDist);
     var xAmount = speed * ratio;
     var yAmount = speed - xAmount;
     enemy.setAccelerationX(xAmount);
