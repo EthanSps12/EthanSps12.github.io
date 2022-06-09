@@ -121,13 +121,13 @@ function update ()
 {
     if (fire <= 0)
     {
-    this.physics.pause();
+    //this.physics.pause();
 
-    player.setTint(0xff0000);
+    //player.setTint(0xff0000);
 
-    player.anims.play('turn');
+    //player.anims.play('turn');
 
-    gameOver = true;
+    //gameOver = true;
     }
     
     if (gameOver)
@@ -169,15 +169,14 @@ function hitEnemy (player, enemy)
     enemy.disableBody(true, true);
     fire -= 10;
     fireText.setText('Fire: ' + score);
-    /*
-    this.physics.pause();
+    
+    //this.physics.pause();
 
-    player.setTint(0xff0000);
+    //player.setTint(0xff0000);
 
-    player.anims.play('turn');
+    //player.anims.play('turn');
 
-    gameOver = true;
-    */  
+    //gameOver = true; 
 }
 
 </script>
