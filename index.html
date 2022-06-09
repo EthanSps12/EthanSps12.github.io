@@ -91,6 +91,7 @@ function create () {
         setXY: { x: 12, y: 100, stepX: 70 }
     });
     enemies.enableBody = true;
+    enemies.setCollideWorldBounds(true);
 
     fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#FFF' });
 
