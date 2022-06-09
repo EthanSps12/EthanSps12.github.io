@@ -157,7 +157,16 @@ function update ()
 function moveEnemy (player, enemy)
 {
     Phaser.Physics.Arcade.ArcadePhysics.accelerateToObject(enemy, player, 60, 60, 60);
-}       
+}
+    
+function accelerateToObject(obj1, obj2, speed) {  // This code was take from: https://phaser.io/examples/v2/p2-physics/accelerate-to-object
+    if (typeof speed === 'undefined') { speed = 60; }
+    var angle = Math.atan2(obj2.y - obj1.y, obj2.x - obj1.x);
+    obj1.body.rotation = angle + game.math.degToRad(90);  // correct angle of angry bullets (depends on the sprite used)
+    obj1.body.force.x = Math.cos(angle) * speed;    // accelerateToObject 
+    obj1.body.force.y = Math.sin(angle) * speed;
+}
+
 
 function hitEnemy (player, enemy)
 {
