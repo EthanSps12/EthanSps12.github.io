@@ -151,19 +151,10 @@ function update ()
     }
     
     //ENEMY MOVEMENT
-    if (game.input.mousePointer.isDown)
-    {
         //  First is the callback
         //  Second is the context in which the callback runs, in this case game.physics.arcade
         //  Third is the parameter the callback expects - it is always sent the Group child as the first parameter
-        enemies.forEach(game.physics.arcade.moveToPointer, game.physics.arcade, false, 200);
-    }
-    else
-    {
-        enemies.setAll('body.velocity.x', 0);
-        enemies.setAll('body.velocity.y', 0);
-    }
-
+    enemies.forEach(game.physics.arcade.moveToPointer, game.physics.arcade, false, 200);
 }
 
 function hitEnemy (player, enemy)
