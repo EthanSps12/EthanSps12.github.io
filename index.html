@@ -156,7 +156,7 @@ function update ()
     
 function moveEnemy (player, enemy)
 {
-    accelerateToObject(enemy, player, 60, 60, 60);
+    Phaser.Physics.Arcade.ArcadePhysics.accelerateToObject(enemy, player, 60, 60, 60);
 }       
 
 function hitEnemy (player, enemy)
