@@ -41,16 +41,14 @@ var fireText;
 
 var game = new Phaser.Game(config);
 
-function preload ()
-{
+function preload () {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('enemy', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
-function create ()
-{    
+function create () {    
     this.add.image(400, 300, 'sky');
 
     platforms = this.physics.add.staticGroup();
@@ -102,17 +100,14 @@ function create ()
     this.physics.add.overlap(player, enemies, hitEnemy, null, this);
 }
 
-function update ()
-{
+function update () {
     
     // GAME OVER CONDITIONS
-    if (gameOver)
-    {
+    if (gameOver) {
         return;
     }
     
-    if (fire <= 0)
-    {
+    if (fire <= 0) {
         player.anims.play('turn');
         this.physics.pause();
         player.setTint(0xff0000);
@@ -120,28 +115,23 @@ function update ()
     }
 
     // PLAYER MOVEMENT
-    if (cursors.left.isDown)
-    {
+    if (cursors.left.isDown) {
         player.setVelocityX(-160);
 
         player.anims.play('left', true);
     }
-    else if (cursors.right.isDown)
-    {
+    else if (cursors.right.isDown) {
         player.setVelocityX(160);
 
         player.anims.play('right', true);
     }
-    else if (cursors.up.isDown)
-    {
+    else if (cursors.up.isDown) {
         player.setVelocityY(-160);
     }
-    else if (cursors.down.isDown)
-    {
+    else if (cursors.down.isDown) {
         player.setVelocityY(160);
     }
-    else
-    {
+    else {
         player.setVelocityX(0);
         player.setVelocityY(0);
 
@@ -150,12 +140,21 @@ function update ()
     
     //ENEMY MOVEMENT
     enemies.children.iterate(function (child) {
-        this.physics.accelerateToObject(child, player, 60, 60, 60);  // Reference: https://phaser.io/examples/v3/view/physics/arcade/accelerate-to
+        moveEnemy(player, child, 60);
     });
 }
+    
+function moveEnemy (player, enemy, speed) {
+    var xDist = player.x - enemy.x;
+    var yDist = player.y - enemy.y;
+    var ratio = yDist / xDist;
+    var xAmount = speed * ratio;
+    var yAmount = speed - xAmount;
+    enemy.setAccelerationX(xAmount);
+    enemy.setAccelerationY(yAmount);
+}
 
-function hitEnemy (player, enemy)
-{
+function hitEnemy (player, enemy) {
     enemy.disableBody(true, true);
 
     fire -= 10;
