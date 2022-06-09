@@ -33,7 +33,7 @@ var config = {
 };
 
 var player;
-var stars;
+var enemies;
 var platforms;
 var cursors;
 var fire = 100;
@@ -46,7 +46,7 @@ function preload ()
 {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
-    this.load.image('star', 'assets/bomb.png');
+    this.load.image('enemy', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
 }
 
@@ -98,28 +98,22 @@ function create ()
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
 
-    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-    stars = this.physics.add.group({
-        key: 'star',
+    enemies = this.physics.add.group({
+        key: 'enemy',
         repeat: 11,
         setXY: { x: 12, y: 0, stepX: 70 }
     });
 
-    stars.children.iterate(function (child) {
-
-        //  Give each star a slightly different bounce
+    enemies.children.iterate(function (child) {
         child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
     });
 
     fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#FFF' });
 
-    //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(enemies, platforms);
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    this.physics.add.overlap(player, stars, collectStar, null, this);
+    this.physics.add.overlap(player, enemies, hitEnemy, null, this);
 }
 
 function update ()
@@ -162,17 +156,16 @@ function update ()
     }
 }
 
-function collectStar (player, star)
+function hitEnemy (player, enemy)
 {
-    star.disableBody(true, true);
+    enemy.disableBody(true, true);
 
     fire -= 10;
     fireText.setText('Fire: ' + fire);
 
-    if (stars.countActive(true) === 0)
+    if (enemies.countActive(true) === 0)
     {
-        //  A new batch of stars to collect
-        stars.children.iterate(function (child) {
+        enemies.children.iterate(function (child) {
 
             child.enableBody(true, child.x, 0, true, true);
 
