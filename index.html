@@ -21,6 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
+            gravity: { y: 300 },
             debug: false
         }
     },
@@ -32,12 +33,12 @@ var config = {
 };
 
 var player;
+var stars;
 var platforms;
 var cursors;
-var fire = 100;
+var score = 0;
 var gameOver = false;
-var fireText;
-var enemies;
+var scoreText;
 
 var game = new Phaser.Game(config);
 
@@ -45,8 +46,8 @@ function preload ()
 {
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
+    this.load.image('star', 'assets/star.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.image('enemy', 'assets/bomb.png');
 }
 
 function create ()
@@ -69,9 +70,9 @@ function create ()
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
 
+    //  Player physics properties. Give the little guy a slight bounce.
+    player.setBounce(0.2);
     player.setCollideWorldBounds(true);
-    
-    player.allowGravity = false;
 
     //  Our player animations, turning, walking left and walking right.
     this.anims.create({
@@ -96,40 +97,34 @@ function create ()
 
     //  Input Events
     cursors = this.input.keyboard.createCursorKeys();
-    
-    enemies = this.physics.add.group();
 
-    //  The fire energy
-    fireText = this.add.text(16, 16, 'Fire: 100', { fontSize: '32px', fill: '#888' });
+    //  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
+    stars = this.physics.add.group({
+        key: 'star',
+        repeat: 11,
+        setXY: { x: 12, y: 0, stepX: 70 }
+    });
+
+    stars.children.iterate(function (child) {
+
+        //  Give each star a slightly different bounce
+        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+
+    });
+
+    //  The score
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
-    this.physics.add.collider(enemies, platforms);
-    
-    this.physics.add.collider(player, enemies, hitEnemy, null, this);
-    
-    var enemyA = enemies.create(20, 20, 'enemy');
-    var enemyB = enemies.create(100, 100, 'enemy');
-    enemyA.setCollideWorldBounds(true);
-    enemyA.allowGravity = false;
-    enemyB.setCollideWorldBounds(true);  // Later on, dont do this for every enemy
-    enemyB.allowGravity = false;
+    this.physics.add.collider(stars, platforms);
 
+    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+    this.physics.add.overlap(player, stars, collectStar, null, this);
 }
 
 function update ()
 {
-    if (fire <= 0)
-    {
-    //this.physics.pause();
-
-    //player.setTint(0xff0000);
-
-    //player.anims.play('turn');
-
-    //gameOver = true;
-    }
-    
     if (gameOver)
     {
         return;
@@ -147,39 +142,37 @@ function update ()
 
         player.anims.play('right', true);
     }
-    else if (cursors.up.isDown)
-    {
-        player.setVelocityY(-160);
-    }
-    else if (cursors.down.isDown)
-    {
-        player.setVelocityY(160);
-    }
     else
     {
         player.setVelocityX(0);
-        player.setVelocityY(0);
 
         player.anims.play('turn');
     }
+
+    if (cursors.up.isDown && player.body.touching.down)
+    {
+        player.setVelocityY(-330);
+    }
 }
-    
-function hitEnemy (player, enemy)
+
+function collectStar (player, star)
 {
-    enemy.disableBody(true, true);
-    //fire -= 10;
-    //fireText.setText('Fire: ' + score);
-    
-    //this.physics.pause();
+    star.disableBody(true, true);
 
-    //player.setTint(0xff0000);
+    //  Add and update the score
+    score += 10;
+    scoreText.setText('Score: ' + score);
 
-    //player.anims.play('turn');
+    if (stars.countActive(true) === 0)
+    {
+        //  A new batch of stars to collect
+        stars.children.iterate(function (child) {
 
-    //gameOver = true; 
-}
+            child.enableBody(true, child.x, 0, true, true);
 
-</script>
+        });
+    }
+}</script>
 
 </body>
 </html>
