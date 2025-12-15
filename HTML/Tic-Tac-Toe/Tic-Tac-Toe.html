@@ -1,0 +1,233 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title> Tic-Tac-Toe </title>
+		<link rel="stylesheet" href="Tic-Tac-Toe-Formatter.css">
+	</head>
+	<body>
+		<div id="settings">
+			<h1> Tic-Tac-Toe </h1>
+			<button id="human" class="start-button" onclick="start(1)"> Human Opponent </button>
+			<button id="computer" class="start-button"> Computer Opponent [Unfinished] </button>
+		</div>
+		<div id="game" hidden>
+			<h2 id="instructions"> Current Player: X </h2>
+			<div id="grid">
+				<div class="button-row">
+					<button class="game-button" id="TL" onclick="mark('TL')">_</button>
+					<button class="game-button" id="TM" onclick="mark('TM')">_</button>
+					<button class="game-button" id="TR" onclick="mark('TR')">_</button>
+				</div>
+				<div class="button-row">
+					<button class="game-button" id="ML" onclick="mark('ML')">_</button>
+					<button class="game-button" id="MM" onclick="mark('MM')">_</button>
+					<button class="game-button" id="MR" onclick="mark('MR')">_</button>
+				</div>
+				<div class="button-row">
+					<button class="game-button" id="BL" onclick="mark('BL')">_</button>
+					<button class="game-button" id="BM" onclick="mark('BM')">_</button>
+					<button class="game-button" id="BR" onclick="mark('BR')">_</button>
+				</div>
+			</div>
+		</div>
+		<div id="win" hidden>
+			<h1 id="customizeWinner">_ Player Wins!!!</h1>
+			<h4>Refresh this page to replay</h4>
+		</div>
+		<div id="draw" hidden>
+			<h1> Draw </h1>
+			<h4>Refresh this page to replay</h4>
+		</div>
+	</body>
+	<script>
+		var isXPlayer = 1;
+		var humanOpt;
+		var gridVals = [["_","_","_"],["_","_","_"],["_","_","_"]];
+		var emptySquares = 9;
+
+		function start(isHuman){
+			document.getElementById("settings").setAttribute("hidden", "hidden");
+			document.getElementById("game").removeAttribute("hidden");
+			humanOpt = isHuman;
+		}
+
+		function getCoordsFromID(id){
+			let idArray = [id.substring(0,1), id.substring(1,2)];
+			let toReturn = [];
+			if (idArray[0] == "T"){
+				toReturn.push(0);
+			} else if (idArray[0] == "M"){
+				toReturn.push(1);
+			} else {
+				toReturn.push(2);
+			}
+			if (idArray[1] == "L"){
+				toReturn.push(0);
+			} else if (idArray[1] == "M"){
+				toReturn.push(1);
+			} else {
+				toReturn.push(2);
+			}
+			return toReturn;
+		}
+
+		function mark(buttonID){
+			if (humanOpt){
+				if(document.getElementById(buttonID).innerHTML == "_"){
+					let xy = getCoordsFromID(buttonID);
+					let symbol;
+					if (isXPlayer){
+						symbol = "X";
+						isXPlayer = 0;
+						document.getElementById("instructions").innerHTML = "Current Player: O";
+					} else {
+						symbol = "O";
+						isXPlayer = 1;
+						document.getElementById("instructions").innerHTML = "Current Player: X";
+					}
+					document.getElementById(buttonID).innerHTML = symbol;
+					gridVals[xy[0]][xy[1]] = symbol;
+					emptySquares -= 1;
+					if (checkForWin(symbol)){
+						declareWin(symbol);
+					} else if (emptySquares == 0){
+						declareDraw();
+					}
+				}
+			} else {
+				// Human move part
+				if(document.getElementById(buttonID).innerHTML == "_"){
+					let xy = getCoordsFromID(buttonID);
+					document.getElementById(buttonID).innerHTML = "X";
+					gridVals[xy[0]][xy[1]] = "X";
+					emptySquares -= 1;
+					if (checkForWin("X")){
+						declareWin("X");
+					} else if (emptySquares == 0){
+						declareDraw();
+					} else {
+						// Computer move part
+						let idComputerSelects = computerCalcMove();
+						let pcxy = getCoordsFromID(idComputerSelects);
+						document.getElementById(idComputerSelects).innerHTML = "O";
+						gridVals[xy[0]][xy[1]] = "O";
+						emptySquares -= 1;
+						if (checkForWin("O")){
+							declareWin("O");
+						} else if (emptySquares == 0){
+							declareDraw();
+						}
+					}
+				}
+			}
+		}
+
+		function checkForWin(player){
+			// Probably some better ways of implementing this but this is a simple solution
+			var sumTRow = 0;
+			var sumMRow = 0;
+			var sumBRow = 0;
+			var sumLCol = 0;
+			var sumMCol = 0;
+			var sumRCol = 0;
+			var sumDownDiag = 0;
+			var sumUpDiag = 0;
+			if (gridVals[0][0] == player){
+				sumTRow += 1;
+				sumLCol += 1;
+				sumDownDiag += 1;
+			}
+			if (gridVals[0][1] == player){
+				sumTRow += 1;
+				sumMCol += 1;
+			}
+			if (gridVals[0][2] == player){
+				sumTRow += 1;
+				sumRCol += 1;
+				sumUpDiag += 1;
+			}
+			if (gridVals[1][0] == player){
+				sumMRow += 1;
+				sumLCol += 1;
+			}
+			if (gridVals[1][1] == player){
+				sumMRow += 1;
+				sumMCol += 1;
+				sumDownDiag += 1;
+				sumUpDiag += 1;
+			}
+			if (gridVals[1][2] == player){
+				sumMRow += 1;
+				sumRCol += 1;
+			}
+			if (gridVals[2][0] == player){
+				sumBRow += 1;
+				sumLCol += 1;
+				sumUpDiag += 1;
+			}
+			if (gridVals[2][1] == player){
+				sumBRow += 1;
+				sumMCol += 1;
+			}
+			if (gridVals[2][2] == player){
+				sumBRow += 1;
+				sumRCol += 1;
+				sumDownDiag += 1;
+			}
+			let sumsArray = [sumTRow, sumMRow, sumBRow, sumLCol, sumMCol, sumRCol, sumUpDiag, sumDownDiag];
+			for (let i = 0; i < sumsArray.length; i++){
+				if (sumsArray[i] == 3){
+					return 1;
+				}
+			}
+			return 0;
+		}
+
+		function declareWin(winner){
+			document.getElementById("game").setAttribute("hidden", "hidden");
+			document.getElementById("customizeWinner").innerHTML = winner + " Player Wins!!!";
+			document.getElementById("win").removeAttribute("hidden");
+		}
+
+		function declareDraw(){
+			document.getElementById("game").setAttribute("hidden", "hidden");
+			document.getElementById("customizeWinner").innerHTML = "Draw!";
+			document.getElementById("win").removeAttribute("hidden");
+		}
+
+		function isLegalMove(xy){
+			if ((xy[0] >= 0) && (xy[0] < 3)){
+				if ((xy[1] >= 0) && (xy[1] < 3)){
+					if (gridVals[xy[1]][xy[0]] == "_"){
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		function computerCalcMove(){  // Unfinished
+			if (emptySquares == 8){  // For the first move
+				if (gridVals[1][1] == "X"){  // If your opponent takes center, go TL
+					return "TL";
+				} else {
+					return "MM";
+				}
+			} else if (emptySquares == 6){
+				if (gridVals[0][0] == "O"){  // If you went TL on the first move (b/c your opponent went center)
+					// Fill in
+				} else {  // If your opponent didn't go center and you did
+					// Fill in
+				}
+			} else if (emptySquares == 4){
+				return "??";
+			} else if (emptySquares == 2){
+				return "??";
+			} else {
+				throw new Error("Error: Something unexpected happened and the tic-tac-toe AI doesn't know what to do.");
+				return "-1";
+			}
+		}
+	</script>
+</html>
