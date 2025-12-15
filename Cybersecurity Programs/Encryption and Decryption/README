@@ -1,0 +1,4 @@
+I made this program for my Introduction to Cybersecurity course.
+It guides the user along an explaination of the RSA encryption system by encrypting and decrypting a simple message.
+This program uses the random and math Python libraries.
+To try it, just download it and run.
