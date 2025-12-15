@@ -1,0 +1,6 @@
+I made this program for my Algorithms class.
+This program takes an image, and finds the seam of least weight.
+The seam of least weight is a line running from the top to bottom of an image that has the least weight in terms of some variable, such as color contrast.
+This technique can be used to shrink pictures horizontally or vertically without changing important parts.
+This program uses the math Python library.
+This program only consists of functions and requires a main method that gives it the data in order to run.
