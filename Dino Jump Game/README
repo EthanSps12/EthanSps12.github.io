@@ -1,0 +1,4 @@
+I made this game in my Introduction to Programming course.
+Our task was to create a simple clone of the Google dino jump minigame.
+This game uses the pygame and random Python libraries, and also requires the gamebox program (not my work).
+To try it, download the the dinojump.py and gamebox.py files, then run dinojump.py.
