@@ -1,0 +1,4 @@
+I made this program for my Algorithms class.
+The program is supposed to take as input a list of nodes and edges, where the nodes represent different parts of the supply chain, like ports and distribution centers.
+The program must then use Kruskal's algorithm to construct a minimum spanning tree of the graph, adhering to certain rules.
+This program only consists of functions and requires a main method that gives it the data in order to run.
