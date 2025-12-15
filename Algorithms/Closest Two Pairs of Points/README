@@ -1,0 +1,4 @@
+I made this program for my Algorithms class.
+This program is supposed to solve the closest pair of points problem, with the modification that it must return the 2 closest pairs of points.
+This program uses the math Python library.
+This program only consists of functions and requires a main method that gives it the data in order to run.
