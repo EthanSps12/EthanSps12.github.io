@@ -1,0 +1,15 @@
+I made this program for my Program & Data Representation class.
+The assignment was to create a postfix calculator, using a stack data structure we made from a list class.
+While I did most of the work in these files, some of the code is the template the professor gave us.
+The program was written in C++.
+You can run this program by compiling the files with a command like:
+g++ List.cpp ListItr.cpp ListNode.cpp postfixCalculator.cpp Stack.cpp testPostfixCalc.cpp
+then running the resulting executable.
+Enter each number or operation in the postfix equation one at a time, pressing enter between each one, and ctrl+Z (Windows) or ctrl+D (Linux) to end input.
+
+List- A class made up of ListNodes, with various functions to manipulate it.
+ListItr- A class that points to a node in a list, and can get the value of that node or more forward or backward.
+ListNode- A class that makes up a list, with an int value and pointers pointing to the previous and next nodes.
+Stack- A special type of list that can only be grown or shrunk from the end.
+postfixCalculator- A class that uses a stack to solve equations using postfix notation.
+testPostfixCalc- A class that creates and runs a postfix calculator.
